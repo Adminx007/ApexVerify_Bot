@@ -33,9 +33,14 @@ ADMINS = [8515316792]
 OTP_GROUP_ID = -1003695879397
 
 # ==================== WELCOME MESSAGE CONFIGURATION ====================
-WELCOME_MESSAGE = """⚡ 𝙰𝚙𝚎𝚡 𝚅𝚎𝚛𝚒𝚏𝚢 𝙱𝚘𝚝 ⚡ 
+WELCOME_MESSAGE = """⚡ �𝐩𝐞𝐱 𝐎𝐓𝐏 𝐋𝐢𝐯𝐞 ⚡
 ━━━━━━━━━━━━━━━━━━━━━━
-🟢 𝗣𝗿𝗲𝗺𝗶𝘂𝗺 & ⚡ 𝗙𝗮𝘀𝘁 𝗦𝗲𝗿𝘃𝗶𝗰𝗲 🟢"""
+🚀 𝗤𝘂𝗶𝗰𝗸𝗲𝘀𝘁 𝗩𝗲𝗿𝗶𝗳𝗶𝗰𝗮𝘁𝗶𝗼𝗻 𝗕𝗼𝘁
+🔐 𝗦𝗮𝗳𝗲 • 𝗦𝗺𝗮𝗿𝘁 • 𝗨𝗽𝘁𝗶𝗺𝗲 𝟮𝟰/7
+🎁 𝗥𝗲𝗳𝗲𝗿 𝗮𝗻𝗱 𝗘𝗮𝗿𝗻 𝗪𝗶𝘁𝗵 𝗘𝗮𝗰𝗵 𝗢𝗧𝗣
+━━━━━━━━━━━━━━━━━━━━━━
+✨ 𝗛𝗲𝗹𝗽𝗳𝘂𝗹 𝘀𝘂𝗽𝗽𝗼𝗿𝘁 𝗮𝘃𝗮𝗶𝗹𝗮𝗯𝗹𝗲
+"""
 
 # ==================== OTP RATE CONFIGURATION ====================
 OTP_RATE = 0.25
@@ -548,15 +553,14 @@ def detect_service(full_sms):
 # ==================== KEYBOARDS SECTION ====================
 
 def main_keyboard(user_id):
-    # BALANCE বাটনটি রিমুভ করা হয়েছে এবং বাকি বাটনগুলো হোয়াইট বোল্ড স্টাইল করা হয়েছে
     keyboard = [
-        [KeyboardButton(text=f"📞 {make_bold_unicode('GET NUMBER')}", style="primary")],
+        [KeyboardButton(text=f"🚀 {make_bold_unicode('QUICK OTP')}", style="primary")],
         [
-            KeyboardButton(text=f"👥 {make_bold_unicode('REFER AND EARN')}", style="primary"),
-            KeyboardButton(text=f"👤 {make_bold_unicode('PROFILE')}", style="primary")
+            KeyboardButton(text=f"🎁 {make_bold_unicode('REFER & EARN')}", style="primary"),
+            KeyboardButton(text=f"📊 {make_bold_unicode('MY STATS')}", style="primary")
         ],
-        [KeyboardButton(text=f"🏆 {make_bold_unicode('LEADERBOARD')}", style="primary")],
-        [KeyboardButton(text=f"💬 {make_bold_unicode('SUPPORT')}", style="primary")]
+        [KeyboardButton(text=f"🏅 {make_bold_unicode('TOP USERS')}", style="primary")],
+        [KeyboardButton(text=f"💬 {make_bold_unicode('HELP CENTER')}", style="primary")]
     ]
 
     if is_admin(user_id):
@@ -565,7 +569,7 @@ def main_keyboard(user_id):
     return ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 
 def cancel_keyboard():
-    keyboard = [[KeyboardButton(f"❌ {make_bold_unicode('CANCEL')}", style="danger")]]
+    keyboard = [[KeyboardButton(f"✖️ {make_bold_unicode('CANCEL')}", style="danger")]]
     return ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 
 def withdraw_method_keyboard():
@@ -956,13 +960,13 @@ async def leaderboard_command(update: Update, context: ContextTypes.DEFAULT_TYPE
 
     if not top10:
         msg = (
-            "<b>🏆 TOP 10 OTP LEADERBOARD 🏆</b>\n"
+            "<b>🏆 OTP HEROES LEADERBOARD 🏆</b>\n"
             "━━━━━━━━━━━━━━━━━━━━\n\n"
-            "❌ আজ পর্যন্ত কেউ OTP পায়নি।\n"
+            "❌ আজ পর্যন্ত কেউ OTP পায়নি। প্রথম হয়ে শীর্ষে উঠুন!\n"
         )
     else:
         msg = (
-            "<b>🏆 TOP 10 OTP RECEIVERS (TODAY) 🏆</b>\n"
+            "<b>🏆 TOP 10 OTP HEROES (TODAY) 🏆</b>\n"
             "━━━━━━━━━━━━━━━━━━━━\n\n"
         )
         for idx, (uid_str, count, name) in enumerate(top10, 1):
@@ -1035,8 +1039,8 @@ async def show_app_selection(update, context):
     context.user_data["la_services"] = services
     keyboard = _build_services_keyboard(services)
     await update.message.reply_text(
-        "📞 <b>GET NUMBER</b>\n\n"
-        "<blockquote>✨ নিচ থেকে আপনার পছন্দের <b>Service</b> নির্বাচন করুন:</blockquote>",
+        "� <b>QUICK OTP LAUNCHER</b>\n\n"
+        "<blockquote>✨ নিচ থেকে আপনার পছন্দের সার্ভিস নির্বাচন করুন এবং দ্রুত নাম্বার নিন:</blockquote>",
         parse_mode="HTML",
         reply_markup=keyboard
     )
@@ -1514,14 +1518,14 @@ async def refer_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     total_reward = float(successful_refers) * REFERRAL_PRICE
 
     refer_msg = (
-        f"🎁 <b>REFER AND EARN SYSTEM</b> 🎁\n\n"
-        f"<blockquote>🚀 INVITE FRIENDS &amp; EARN {int(REFERRAL_PRICE)} BDT EACH! 💸</blockquote>\n\n"
-        f"<b>🔗 YOUR REFERRAL LINK:</b>\n"
+        f"🎁 <b>REFER & EARN HUB</b> 🎁\n\n"
+        f"<blockquote>🚀 প্রতিজন বন্ধু আনুন এবং প্রতিটি সফল রেফারের জন্য {format_balance(REFERRAL_PRICE)} BDT উপার্জন করুন!</blockquote>\n\n"
+        f"<b>🔗 YOUR UNIQUE LINK:</b>\n"
         f"<blockquote><code>{referral_link}</code></blockquote>\n\n"
-        f"<b>📊 YOUR STATS:</b>\n"
-        f"<blockquote>👥 TOTAL REFERS: {successful_refers}\n"
-        f"💰 TOTAL EARNED: {format_balance(total_reward)} BDT</blockquote>\n\n"
-        f"✨ <b>SHARE LINK &amp; EARN MONEY!</b> ✨"
+        f"<b>📊 YOUR REFERRAL PROGRESS:</b>\n"
+        f"<blockquote>👥 TOTAL FRIENDS: {successful_refers}\n"
+        f"💰 EARNED SO FAR: {format_balance(total_reward)} BDT</blockquote>\n\n"
+        f"✨ <b>SHARE NOW, EARN FASTER!</b> ✨"
     )
 
     await update.message.reply_text(
@@ -2129,61 +2133,33 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     # PROFILE বাটন ডিটেকশন (এখান থেকেই ব্যালেন্স এবং উইথড্র ইনলাইন বাটন হ্যান্ডেল করা হয়েছে)
-    if "PROFILE" in text:
-        user_data = get_user(uid)
-        stats = get_user_stats(uid)
-        user = update.effective_user
-        full_name = html.escape(user.full_name)
-        username = html.escape(user.username or "No username")
-        balance = user_data.get('balance', 0)
-        
-        profile_text = (
-            f"👤 <b>ACCOUNT PROFILE</b>\n"
-            f"━━━━━━━━━━━━━━━━━━━━━━━━\n"
-            f"📝 <b>Name:</b> <code>{full_name}</code>\n"
-            f"🆔 <b>Username:</b> <code>@{username}</code>\n"
-            f"🗝 <b>ID:</b> <code>{uid}</code>\n\n"
-            f"💰 <b>Current Balance:</b> <code>{format_balance(balance)} BDT</code>\n"
-            f"━━━━━━━━━━━━━━━━━━━━━━━━\n"
-            f"📊 <b>ACTIVITY STATS:</b>\n\n"
-            f"📅 <b>Today:</b>\n"
-            f"├ 📱 Numbers: <code>{stats['today_numbers']}</code>\n"
-            f"└ 🔑 Received OTPs: <code>{stats['today_otps']}</code>\n\n"
-            f"🔥 <b>Last 7 Days:</b>\n"
-            f"├ 📱 Numbers: <code>{stats['last7d_numbers']}</code>\n"
-            f"└ 🔑 Received OTPs: <code>{stats['last7d_otps']}</code>\n\n"
-            f"🌐 <b>All-Time:</b>\n"
-            f"├ 📱 Numbers: <code>{stats['total_numbers']}</code>\n"
-            f"└ 🔑 Received OTPs: <code>{stats['total_otps']}</code>\n"
-            f"━━━━━━━━━━━━━━━━━━━━━━━━"
-        )
-        
-        keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton(f"💸 {make_bold_unicode('WITHDRAW')}", callback_data="withdraw_start")]
-        ])
-        
-        await update.message.reply_text(profile_text, parse_mode="HTML", reply_markup=keyboard)
+    if "PROFILE" in text or "MY STATS" in text:
+        await profile_command(update, context)
         return
 
-    if "REFER AND EARN" in text:
+    if "REFER" in text or "EARN" in text:
         await refer_command(update, context)
         return
 
-    if "GET NUMBER" in text:
+    if "GET NUMBER" in text or "QUICK OTP" in text or "OTP" in text:
         await show_app_selection(update, context)
         return
 
-    if "LEADERBOARD" in text:
+    if "LEADERBOARD" in text or "TOP USERS" in text:
         await leaderboard_command(update, context)
         return
 
-    if "SUPPORT" in text:
-        support_text = "💬 SUPPORT PANEL 🎧\n\nCLICK THE BUTTONS BELOW TO CONTACT SUPPORT"
+    if "HELP CENTER" in text or "SUPPORT" in text:
+        support_text = (
+            "💬 <b>HELP CENTER</b> 🎧\n\n"
+            "Need assistance? Tap below to reach support or the developer instantly.\n"
+            "Our team is ready to help with OTP, payments, and service access."
+        )
         keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("💬 SUPPORT", url=SUPPORT_LINK, style="primary")],
+            [InlineKeyboardButton("💬 CONTACT SUPPORT", url=SUPPORT_LINK, style="primary")],
             [InlineKeyboardButton("👨‍💻 DEVELOPER", url="https://t.me/KHALID_OFFICIAL_007", style="danger")]
         ])
-        await update.message.reply_text(support_text, reply_markup=keyboard, parse_mode="Markdown")
+        await update.message.reply_text(support_text, reply_markup=keyboard, parse_mode="HTML")
         return
 
     # Admin Panel (Pure Inline Transition)
@@ -2423,7 +2399,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     context.user_data.clear()
     await update.message.reply_text(WELCOME_MESSAGE, parse_mode="Markdown")
-    await update.message.reply_text("🔹 PLEASE USE THE BUTTONS BELOW:", reply_markup=main_keyboard(uid))
+    await update.message.reply_text("🌟 নিচের বাটন থেকে শুরু করুন — আপনার দ্রুত OTP যাত্রা চলছে!", reply_markup=main_keyboard(uid))
 
 async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query

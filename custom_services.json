@@ -1,0 +1,20 @@
+[
+    {
+        "sid": "INSTAGRAM",
+        "ranges": [
+            {
+                "range": "2290194XXX",
+                "country": "\ud83c\udde7\ud83c\uddef Benin"
+            }
+        ]
+    },
+    {
+        "sid": "FACEBOOK",
+        "ranges": [
+            {
+                "range": "23674520947XXX",
+                "country": "\ud83c\udde8\ud83c\uddeb Central African Republic"
+            }
+        ]
+    }
+]
