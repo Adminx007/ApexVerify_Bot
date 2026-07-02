@@ -54,3 +54,23 @@ tail -n 50 bot.log
 - `requirements.txt` contains the pinned dependency versions.
 - The bot uses a user keyboard menu and an inline admin panel.
 - For 24/7 uptime, deploy on a server or cloud VM rather than the current interactive container.
+
+## User Panel Features
+
+- `QUICK OTP` starts fast OTP service selection.
+- `MY WALLET` shows balance, referral count, and activity summary.
+- `REFER & EARN` provides a personalized referral link and earnings stats.
+- `TOP RANKS` shows the daily leaderboard.
+- `HELP CENTER` opens support contact options.
+
+## Admin Panel Features
+
+- `ADMIN PANEL` is available for admin accounts only.
+- Inline admin dashboard with:
+  - user management
+  - system status and user lookup
+  - ban/unban controls
+  - add/remove balance
+  - service management
+
+These features give administrators an easy in-chat control panel and users a cleaner, more modern menu experience.
