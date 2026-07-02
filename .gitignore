@@ -3,3 +3,7 @@
 __pycache__/
 *.py[cod]
 *.log
+
+# Ignore JSON data and logs
+*.json
+bot.log
