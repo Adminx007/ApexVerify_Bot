@@ -556,11 +556,10 @@ def main_keyboard(user_id):
     keyboard = [
         [KeyboardButton(text=f"🚀 {make_bold_unicode('QUICK OTP')}", style="primary")],
         [
-            KeyboardButton(text=f"🎁 {make_bold_unicode('REFER & EARN')}", style="primary"),
-            KeyboardButton(text=f"📊 {make_bold_unicode('MY STATS')}", style="primary")
+            KeyboardButton(text=f"💼 {make_bold_unicode('MY WALLET')}", style="primary"),
+            KeyboardButton(text=f"🎁 {make_bold_unicode('REFER & EARN')}", style="primary")
         ],
-        [KeyboardButton(text=f"🏅 {make_bold_unicode('TOP USERS')}", style="primary")],
-        [KeyboardButton(text=f"💬 {make_bold_unicode('HELP CENTER')}", style="primary")]
+        [KeyboardButton(text=f"🥇 {make_bold_unicode('TOP RANKS')}", style="primary"), KeyboardButton(text=f"💬 {make_bold_unicode('HELP CENTER')}", style="primary")]
     ]
 
     if is_admin(user_id):
@@ -612,18 +611,18 @@ def get_grouped_countries_for_service(service):
 
 def build_admin_main_inline_keyboard():
     buttons = [
-        [InlineKeyboardButton(make_bold_unicode("👥 USER MANAGEMENT"), callback_data="adm_menu_user_mgnt", style="primary")],
-        [InlineKeyboardButton(make_bold_unicode("⚙️ SYSTEM CONFIGURATION"), callback_data="adm_menu_sys_config", style="primary")],
-        [InlineKeyboardButton(make_bold_unicode("🛠️ MANAGE SERVICES"), callback_data="manage_svc_back_to_list", style="primary")],
-        [InlineKeyboardButton(make_bold_unicode("🔙 BACK TO MAIN MENU"), callback_data="adm_menu_back_to_main", style="danger")]
+        [InlineKeyboardButton(make_bold_unicode("👥 USER OPS"), callback_data="adm_menu_user_mgnt", style="primary")],
+        [InlineKeyboardButton(make_bold_unicode("⚙️ SYSTEM OPS"), callback_data="adm_menu_sys_config", style="primary")],
+        [InlineKeyboardButton(make_bold_unicode("🛠️ SERVICE HUB"), callback_data="manage_svc_back_to_list", style="primary")],
+        [InlineKeyboardButton(make_bold_unicode("🔙 USER PANEL"), callback_data="adm_menu_back_to_main", style="danger")]
     ]
     return InlineKeyboardMarkup(buttons)
 
 def build_user_management_inline_keyboard():
     buttons = [
-        [InlineKeyboardButton(make_bold_unicode("📢 BROADCAST TO ALL"), callback_data="adm_usermgnt_broadcast", style="primary")],
-        [InlineKeyboardButton(make_bold_unicode("🆔 GET ALL USER ID"), callback_data="adm_usermgnt_get_ids", style="primary")],
-        [InlineKeyboardButton(make_bold_unicode("💰 ALL USER BALANCE"), callback_data="adm_usermgnt_all_balance", style="primary")],
+        [InlineKeyboardButton(make_bold_unicode("📢 BROADCAST"), callback_data="adm_usermgnt_broadcast", style="primary")],
+        [InlineKeyboardButton(make_bold_unicode("🆔 EXPORT USER IDS"), callback_data="adm_usermgnt_get_ids", style="primary")],
+        [InlineKeyboardButton(make_bold_unicode("💰 TOTAL BALANCE"), callback_data="adm_usermgnt_all_balance", style="primary")],
         [InlineKeyboardButton(make_bold_unicode("🔙 BACK"), callback_data="adm_menu_back_to_admin", style="danger")]
     ]
     return InlineKeyboardMarkup(buttons)
@@ -631,8 +630,8 @@ def build_user_management_inline_keyboard():
 def build_system_config_inline_keyboard():
     buttons = [
         [
-            InlineKeyboardButton(make_bold_unicode("📈 SYSTEM STATS"), callback_data="adm_sys_stats", style="primary"),
-            InlineKeyboardButton(make_bold_unicode("👤 USER CHECK"), callback_data="adm_sys_user_check", style="primary")
+            InlineKeyboardButton(make_bold_unicode("📈 SYSTEM STATUS"), callback_data="adm_sys_stats", style="primary"),
+            InlineKeyboardButton(make_bold_unicode("👤 USER LOOKUP"), callback_data="adm_sys_user_check", style="primary")
         ],
         [
             InlineKeyboardButton(make_bold_unicode("⛔ BAN USER"), callback_data="adm_sys_ban", style="danger"),
@@ -713,20 +712,19 @@ def get_admin_panel_text():
     total_ranges = sum(len(s.get("ranges", [])) for s in custom_svcs)
     
     stats_data = load_stats()
-    total_otps = 0
-    for u in stats_data.values():
-        total_otps += len(u.get("otps_received", []))
+    total_otps = sum(len(u.get("otps_received", [])) for u in stats_data.values())
+    pending_withdrawals = len(load_withdraw_requests())
     
     text = (
-        "👑 <b>ADMIN CONTROL PANEL</b> 👑\n"
+        "👑 <b>ADMIN DASHBOARD</b> 👑\n"
         "━━━━━━━━━━━━━━━━━━━━━━━━\n"
-        "📊 <b>REAL-TIME DATABASE STATS</b>\n\n"
         f"👥 <b>Total Users:</b> <code>{users}</code>\n"
         f"📶 <b>Active Ranges:</b> <code>{total_ranges}</code>\n"
         f"🔑 <b>Processed OTPs:</b> <code>{total_otps}</code>\n"
-        f"🚫 <b>Banned Accounts:</b> <code>{banned}</code>\n"
+        f"🚫 <b>Banned Users:</b> <code>{banned}</code>\n"
+        f"💳 <b>Pending Withdrawals:</b> <code>{pending_withdrawals}</code>\n"
         "━━━━━━━━━━━━━━━━━━━━━━━━\n"
-        "💎 <i>Mino X SMS Bot • Live & Operating</i>"
+        "⚡ <i>Live bot operation control center</i>"
     )
     return text
 
@@ -740,9 +738,9 @@ def is_state_cancelling_input(text_input):
         return True
     
     cancelling_keywords = [
-        "👥 USER MANAGEMENT", "⚙️ SYSTEM CONFIGURATION", "🛠️ MANAGE SERVICES",
-        "🔙 BACK TO MAIN", "⚙️ ADMIN PANEL ⚙️", "📞 GET NUMBER", "💰 BALANCE",
-        "👥 REFER AND EARN", "👤 PROFILE", "🏆 LEADERBOARD", "💬 SUPPORT", "❌ CANCEL"
+        "👥 USER OPS", "⚙️ SYSTEM OPS", "🛠️ SERVICE HUB",
+        "🔙 USER PANEL", "⚙️ ADMIN PANEL ⚙️", "🚀 QUICK OTP", "💼 MY WALLET",
+        "🎁 REFER & EARN", "📊 MY STATS", "🥇 TOP RANKS", "💬 HELP CENTER", "❌ CANCEL"
     ]
     return clean_text in cancelling_keywords
 
@@ -1587,8 +1585,13 @@ async def withdraw_amount_received(update: Update, context: ContextTypes.DEFAULT
 
     context.user_data["withdraw_amount"] = amount
     context.user_data["withdraw_mode"] = "number"
+    prompt_text = (
+        "📞 PLEASE SEND YOUR PAYMENT NUMBER!\n\n<blockquote>🔢 EXAMPLE: 017XXXXXXXX</blockquote>"
+        if context.user_data.get("withdraw_method") in {"BKASH", "NAGAD", "ROCKET"}
+        else "📲 PLEASE SEND YOUR BINANCE WALLET ID OR TAG!"
+    )
     await update.message.reply_text(
-        "📞 PLEASE SEND YOUR PAYMENT NUMBER!\n\n<blockquote>🔢 EXAMPLE: 017XXXXXXXX</blockquote>",
+        prompt_text,
         parse_mode="HTML", reply_markup=cancel_keyboard()
     )
 
@@ -1601,13 +1604,19 @@ async def withdraw_number_received(update: Update, context: ContextTypes.DEFAULT
         await update.message.reply_text("❌ WITHDRAW CANCELLED", reply_markup=main_keyboard(uid))
         return
 
-    if not is_valid_bangladesh_number(text):
-        await update.message.reply_text("⚠️ PLEASE SEND VALID NUMBER! 017XXXXXXXX", reply_markup=cancel_keyboard())
-        return
-
     method = context.user_data.get("withdraw_method")
     amount = context.user_data.get("withdraw_amount")
-    payment_number = text
+
+    if method in {"BKASH", "NAGAD", "ROCKET"}:
+        if not is_valid_bangladesh_number(text):
+            await update.message.reply_text("⚠️ PLEASE SEND VALID BANGLADESH PAYMENT NUMBER! 017XXXXXXXX", reply_markup=cancel_keyboard())
+            return
+        payment_number = normalize_number(text)
+    else:
+        payment_number = text.strip()
+        if len(payment_number) < 6:
+            await update.message.reply_text("⚠️ PLEASE SEND A VALID BINANCE WALLET ID OR TAG!", reply_markup=cancel_keyboard())
+            return
     payment_id = generate_payment_id()
 
     context.user_data["temp_withdraw"] = {
@@ -2331,20 +2340,27 @@ async def profile_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_data = get_user(uid)
     stats = get_user_stats(uid)
     user = update.effective_user
+    referral_count = get_referral_count(uid)
     profile_text = (
-        f"👤 **YOUR PROFILE**\n━━━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"🏷️ NAME: `{user.full_name}`\n"
-        f"🆔 USERNAME: @{user.username or 'No username'}\n"
-        f"🗝️ ID: `{uid}`\n\n"
-        f"💵 BALANCE: {format_balance(user_data.get('balance', 0))} BDT\n\n"
-        f"✨ TODAY: 📱 {stats['today_numbers']} | 🔑 {stats['today_otps']}\n"
-        f"🔥 7 DAYS: 📱 {stats['last7d_numbers']} | 🔑 {stats['last7d_otps']}\n"
-        f"🌐 ALL TIME: 📱 {stats['total_numbers']} | 🔑 {stats['total_otps']}"
+        f"💼 <b>MY WALLET DASHBOARD</b>\n"
+        f"━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"📝 <b>Name:</b> <code>{html.escape(user.full_name)}</code>\n"
+        f"🆔 <b>Username:</b> <code>@{html.escape(user.username or 'No username')}</code>\n"
+        f"🗝️ <b>User ID:</b> <code>{uid}</code>\n\n"
+        f"💰 <b>Balance:</b> <code>{format_balance(user_data.get('balance', 0))} BDT</code>\n"
+        f"🎯 <b>Referral Count:</b> <code>{referral_count}</code>\n"
+        f"━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"📊 <b>Activity Summary</b>\n"
+        f"• Today: <code>{stats['today_numbers']} numbers</code>, <code>{stats['today_otps']} OTPs</code>\n"
+        f"• Last 7 Days: <code>{stats['last7d_numbers']} numbers</code>, <code>{stats['last7d_otps']} OTPs</code>\n"
+        f"• All Time: <code>{stats['total_numbers']} numbers</code>, <code>{stats['total_otps']} OTPs</code>\n"
+        f"━━━━━━━━━━━━━━━━━━━━━━"
     )
     keyboard = InlineKeyboardMarkup([
-        [InlineKeyboardButton(f"💸 {make_bold_unicode('WITHDRAW')}", callback_data="withdraw_start")]
+        [InlineKeyboardButton(f"💸 {make_bold_unicode('WITHDRAW')}", callback_data="withdraw_start")],
+        [InlineKeyboardButton(f"🔗 {make_bold_unicode('SHARE REFERRAL')}", callback_data=f"my_ref_{uid}")]
     ])
-    await update.message.reply_text(profile_text, parse_mode="Markdown", reply_markup=keyboard)
+    await update.message.reply_text(profile_text, parse_mode="HTML", reply_markup=keyboard)
 
 async def refer_command_slash(update: Update, context: ContextTypes.DEFAULT_TYPE):
     uid = update.effective_user.id
